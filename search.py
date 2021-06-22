@@ -83,68 +83,47 @@ def assignor_search(data_entry):                                                
                 url_array.append(string)
         return url_array, US_nums #returns US patent numbers and urls
                                                                                     #
-    def SearchFunc(data, search_start, search_end, f_shift, b_shift, f_shift2, b_shift2, search_par):  # search function for US patent numbers in USPTO database
-
-        # determining the start index values of all the strings searched for
-        idx_start = list(find_all(data, search_start)) #the index to begin searching database at
-        # determining the end index values of all the strings searched for
-        idx_end = list(find_all(data, search_end)) #the index to stop searching database at
-        VAL = []  # final values array
-        VAL_return = []  # working values array
-        i_range = 0
-        if len(idx_start) > len(idx_end):
-            i_range = len(idx_end)
-        if len(idx_end) >= len(idx_start):
-            i_range = len(idx_start)
-        for i in range(i_range):
-            A = idx_start[i]
-            B = idx_end[i]
-            VAL.append(data[(A+f_shift):(B-b_shift)])
-            VAL_str = str(VAL[i])
-            str1 = ""
-            if (VAL_str.find(search_par) != -1):
-                indx = list(find_all(VAL_str, search_par))
-                for k in range(len(indx)):
-                    if k == 0:
-                        VAL_return = VAL_str[0:indx[k]-b_shift2]
-                        VAL_return = VAL_return + str('; ')
-                        VAL_return = VAL_return + \
-                            VAL_str[(indx[k]+f_shift2):(indx[k+1]-b_shift2)]
-                        VAL_return = VAL_return + str('; ')
-                    if k == (len(indx)-1):
-                        VAL_return = VAL_return + \
-                            VAL_str[(indx[k]+f_shift2):len(VAL_str)]
-                        break
-                    elif (0 < k < (len(indx)-1)):
-                        VAL_return = VAL_return + \
-                            VAL_str[(indx[k]+f_shift2):(indx[k+1]-b_shift2)]
-                String = str1.join(VAL_return)
-                VAL[i] = String
-        return VAL
-                                                                                    #
-    def SearchFuncDate(data, search_start, f_shift):  # returns VAL                 #
-
-        # determining the start index values of all the strings searched for
-        idx_start = list(find_all(data, search_start))
-        VAL = []  # final values array
-        VAL_return = []  # working values array
-        for i in range(len(idx_start)):
-            A = idx_start[i]
-            VAL.append(data[(A+f_shift):(A+f_shift+10)])
-        return VAL
-                                                                                    #
-    def patentAssignmentsUS(US_nums):  # returns data, num, and patent_tuple        #
+    def patentAssignmentsUS(US_nums):
         URLS, num = url_search_us(US_nums)
+        Assignor = []
+        Assignee = []
+        Date = []
         patent_tuple = []
         for i in range(len(URLS)):
-            response = requests.get(URLS[i]) #api to return assignor patent legal information
+            response = requests.get(URLS[i])
             data = response.text
-            Assignors = SearchFunc(
-                data, '"patAssignorName"', '<arr name="patAssignorExDate"', 30, 22, 17, 1, '/str') #search criteria for assignors
-            Assignees = SearchFunc(
-                data, '"patAssigneeName"', '<arr name="patAssigneeAddress1"', 30, 22, 17, 1, '/str') #search criteria for assignees
-            Recorded = SearchFuncDate(data, '<date name="recordedDate">', 26) #search criteria for date
-            patent_tuple.append((Assignors, Assignees, Recorded))
+            ass_indx = list(find_all(data,'<date name="recordedDate">'))
+            if (data.find('<date name="recordedDate">',0)==-1):
+                #when no past assignor information present code
+                pass
+            for k in range(len(ass_indx)):
+                former_owner_start = data.find('<arr name="patAssignorName">',ass_indx[k]) + 40
+                former_owner_end = data.find('</arr>',former_owner_start) - 11
+
+                owner_start = data.find('<arr name="patAssigneeName">',ass_indx[k]) + 40
+                owner_end = data.find('</arr>',owner_start) - 11
+                Date_formatted = data[ass_indx[k]+26:ass_indx[k]+36]
+                if Date_formatted in Date:
+                    continue
+                
+                owner = data[owner_start:owner_end]
+                former_owner = data[former_owner_start:former_owner_end]
+
+                if '</str>' in owner:
+                    idx = owner.find('</str>')
+                    owner = owner.replace(owner[idx:idx+18], "; ")
+
+                if '</str>' in former_owner:
+                    idx = former_owner.find('</str>')
+                    former_owner = former_owner.replace(former_owner[idx:idx+18], "; ")
+
+                Assignor.append(former_owner)
+                Assignee.append(owner)
+                Date.append(Date_formatted)
+
+                
+                    
+            patent_tuple.append((Assignor,Assignee,Date))
         data = []
         for i in range(len(num)):  #creating data array with returned data formatted correctly
             patent_stack = np.vstack(patent_tuple[i])
