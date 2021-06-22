@@ -1,0 +1,173 @@
+{% extends "index.html" %}
+<!DOCTYPE html>
+{% block search %}
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 10px;
+    }
+
+    .csv_submit {
+        position: relative;
+        padding: 8px 16px;
+        background: #2ec8f7;
+        border: 2px solid #FFFFFF;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        float: right;
+    }
+
+
+    .button__text {
+        font: bold 17px 'Arial', san-serif;
+        color: #ffffff;
+        transition: all 0.2s;
+
+    }
+
+    .input_submit {
+        position: relative;
+        padding: 8px 16px;
+        background: #2ec8f7;
+        border: 2px solid #FFFFFF;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        float: left;
+
+    }
+
+    .headers {
+        border: 4px solid #2ec8f7;
+        background: 6px #2ec8f7;
+        text-align: center;
+        opacity: 0.9;
+        width: 95%;
+        padding: 10px 10px;
+        border-radius: 10px;
+        position: relative;
+        top: 150px;
+
+        font: 17px 'Arial', san-serif;
+        color: #ffffff;
+        float: center;
+
+    }
+</style>
+
+<html>
+
+<link rel="icon" href="data:,">
+<form action="{{ url_for('download_csv',filename="assignor_data.csv") }}">
+    <button class="csv_submit" type="submit"><span class="button__text">Download CSV</span></button>
+</form>
+<form action="{{ url_for('url') }}">
+    <button class="input_submit" type="submit"><span class="button__text">Input More Numbers</span></button>
+</form>
+{% endblock %}
+
+{% block present %}
+
+
+<body class="parallax">
+
+
+    <body onload="table_gen({{ data }})" class="text_output">
+        <table class="headers">
+            <colgroup>
+                <col span="1" style="width: 10%;text-align:center;">
+                <col span="1" style="width: 10%;text-align:center;">
+                <col span="1" style="width: 40%;text-align:center;">
+                <col span="1" style="width: 40%;text-align:center;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Patent Number</th>
+                    <th>Date</th>
+                    <th>Assignor</th>
+                    <th>Assignee</th>
+                </tr>
+            </thead>
+        </table>
+        <script>
+            function table_gen(data) {
+                var arr, body, tab, tr, td, tn, row, col;
+                arr = data;
+
+                for (i = 0; i < arr.length; i++) {
+                    for (k = 0; k < arr[i].length; k++) {
+                        val = arr[i][k];
+                        if (val == null) {
+                            arr[i][k] = "";
+                        }
+                    }
+                }
+
+
+
+
+
+                body = document.getElementsByTagName('body')[0];
+                tab = document.createElement('table');
+                for (row = 0; row < arr.length; row++) {
+                    tr = document.createElement('tr');
+                    for (col = 0; col < arr[row].length; col++) {
+                        td = document.createElement('td');
+                        tn = document.createTextNode(arr[row][col]);
+                        td.appendChild(tn);
+                        tr.appendChild(td);
+                    }
+                    tab.appendChild(tr);
+                }
+                body.appendChild(tab);
+            }
+            table_gen(data);
+        </script>
+
+    </body>
+</body>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+
+
+        .parallax {
+            background-image: url("https://tce-live2.s3.amazonaws.com/media/media/79374cce-d3cf-469b-adf4-b95e6990ff42.jpg");
+            /* parallax scrolling effect */
+            height: 100%;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+
+        table {
+            border: 10px solid #FFFFFF;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            position: absolute;
+            opacity: 0.9;
+            border-collapse: separate;
+            text-align: left;
+            left: 2.5%;
+            width: 95%;
+            float: center;
+        }
+
+        td {
+
+            padding: 10px;
+        }
+    </style>
+
+</html>
+{% endblock %}
+
