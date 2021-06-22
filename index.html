@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>QipWorks | Assignor Search</title>
+    <link rel="icon" href="https://qipworkscom.sharepoint.com/:i:/s/QipWorksSharePoint/EcWiyAD_yB5JszeD8ThsbEsB4aEIrvH9u6p6e5ZB4lX3>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-attachment:fixed;">
+        <a class="navbar-brand" href="#">
+            <img src="http://ww1.prweb.com/prfiles/2018/06/05/15538377/qipWorks%20Name%20only.jpg" width="90"
+                height="30" class="d-inline-block align-top" alt="">
+            Navbar
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/PATENT_FORM">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="parallax" style="height:100px;"></div>
+    <div class="parallax" style="height:300px;">
+        <div class="transparentbox">
+            <h1>QipWorks</h1>
+            <p>Patent Search Engine</p>
+        </div>
+    </div>
+    <div class="transparentsearch" style="height:auto;">
+        {% block search %}{% endblock %}
+    </div>
+    <div>
+        {% block present %}{% endblock %}
+    </div>
+    <div class="parallax" style="height:50px"></div>
+    </div>
+</body>
+<div class="parallax" style="height:150px"></div>
+
+</html>
+
+<body class="parallax"></body>
+
+
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    body,
+    html {
+        height: 100%;
+        margin: 0px;
+    }
+
+    .parallax {
+        background-image: url("https://tce-live2.s3.amazonaws.com/media/media/79374cce-d3cf-469b-adf4-b95e6990ff42.jpg");
+        /* parallax scrolling effect */
+        height: 100%;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin: 10x;
+    }
+
+    .title {
+        height: 50px;
+        background-color: #FFF;
+        fill-opacity: 60%;
+        font-size: 36px;
+        position: relative;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+    }
+
+    div.transparentbox {
+        opacity: 0.6;
+        filter: alpha(opacity=60);
+        border: 1px solid black;
+        background-color: #ffffff;
+        position: absolute;
+
+        left: 50px;
+        padding: 32px 100px;
+        border: 2px solid #FFFFFF;
+        outline: none;
+        border-radius: 6px;
+        float: left;
+    }
+
+    div.transparentbox p {
+        position: relative;
+        color: #000000;
+        font: 16px 'Arial', san-serif;
+    }
+
+    div.transparentbox h1 {
+        margin: 5%;
+        color: #000000;
+        font: bold 25px 'Arial', san-serif;
+    }
+
+    div.background {
+        border: 2px solid #000000;
+        background: solid white;
+    }
+
+    div.transparentsearch {
+        opacity: 0.9;
+        border: 1px solid black;
+        background-color: #ffffff;
+        left: 2.5%;
+        position: absolute;
+        width: 95%;
+        padding: 32px 32px;
+        border: 2px solid #FFFFFF;
+        outline: none;
+        border-radius: 6px;
+        float: left;
+    }
+
+    div.text_output {
+        border: 1px solid black;
+        background-color: #ffffff;
+        height: 100%;
+        position: absolute;
+
+        left: 70px;
+        right: 70px;
+        padding: 32px 100px;
+        border: 2px solid #FFFFFF;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        float: left;
+    }
+
+    h3.ontop {
+        position: relative;
+    }
+
+    .bar {
+        height: 4em;
+        padding-top: 2em;
+        opacity: 0.5;
+        background: white;
+        margin-top: 5.0em;
+    }
+</style>
+
