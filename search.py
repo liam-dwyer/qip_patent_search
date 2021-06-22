@@ -279,7 +279,7 @@ def assignor_search(data_entry):                                                
 
 #####################################################################################
 ########################### CSV UPLOAD AND DOWNLOAD #################################
-app.config["CSV_UPLOADS"] = "/root/APP/client/csv"
+app.config["CSV_UPLOADS"] = "/root/APP/client/csv" #the csv folder route created serverside for CSV file uploads
 app.config["ALLOWED_DATA_EXTENSIONS"] = ["CSV","XLXS","TXT"]                        #
 @app.route('/csv_upload',methods=["GET","POST"])                                    #
 def csv_upload():                                                                   #
