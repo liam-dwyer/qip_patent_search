@@ -1,0 +1,12 @@
+Search.py Update Changes
+	Removed case sensitivity: 
+		us######## now valid (not just US########)
+		ep######## now valid (not just EP########)
+	Added support for USPTO ending patent codes (i.e. US#########A1 and us##########b2)
+		doesn't search for specific patent versions (USPTO not supported) but will return the base patent number data
+	Changed search criteria for EPO patents:
+		changed the search syntax for all patent assignments, now works with all patents (even ones previously thought to have no assignor / assignee data
+	Added duplicate elimination feature
+		will check the added assignors, assignees, and dates to check and eliminate any duplicates.
+		feature added for both USPTO and EPO patents
+	
