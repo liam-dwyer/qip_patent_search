@@ -81,7 +81,6 @@ def assignor_search(data_entry):                                                
                         indx = pat_no_US.find(character)
                         pat_no_US = pat_no_US[:indx]
 
-
                 url = url1 + pat_no_US + url2
                 url = url.replace("'","")
                 url = url.replace("[","")
@@ -107,8 +106,7 @@ def assignor_search(data_entry):                                                
                 url_array.append(string)
             US_nums[i] = US_nums[i].upper()
         return url_array, US_nums
-                                                                                    #
-                                                                             #
+ 
     def patentAssignmentsUS(US_nums):
         URLS, num = url_search_us(US_nums)
         Assignor = []
@@ -127,15 +125,13 @@ def assignor_search(data_entry):                                                
             for k in range(len(ass_indx)):
                 former_owner_start = data.find('<arr name="patAssignorName">',ass_indx[k]) + 40
                 former_owner_end = data.find('</arr>',former_owner_start) - 11
+                former_owner = data[former_owner_start:former_owner_end]
 
                 owner_start = data.find('<arr name="patAssigneeName">',ass_indx[k]) + 40
                 owner_end = data.find('</arr>',owner_start) - 11
-                Date_formatted = data[ass_indx[k]+26:ass_indx[k]+36]
-                if Date_formatted in Date:
-                    continue
-                
                 owner = data[owner_start:owner_end]
-                former_owner = data[former_owner_start:former_owner_end]
+
+                Date_formatted = data[ass_indx[k]+26:ass_indx[k]+36]
 
                 if '</str>' in owner:
                     idx = owner.find('</str>')
@@ -145,12 +141,13 @@ def assignor_search(data_entry):                                                
                     idx = former_owner.find('</str>')
                     former_owner = former_owner.replace(former_owner[idx:idx+18], "; ")
 
+                if (Date_formatted in Date) or (owner in Assignee) or (former_owner in Assignor):
+                    continue
+
                 Assignor.append(former_owner)
                 Assignee.append(owner)
                 Date.append(Date_formatted)
-
-                
-                    
+    
             patent_tuple.append((Assignor,Assignee,Date))
         
         for i in range(len(num)):
@@ -208,15 +205,12 @@ def assignor_search(data_entry):                                                
             data = response.text
             ass_indx = list(find_all(data,'desc="ASSIGNMENT"'))
             if (data.find('desc="ASSIGNMENT"',0)==-1):
-                #data = 'This patent has no assignment changes'
-                
                 current_owner_start_idx = data.find('"OWNER">',0)
                 current_owner_start = current_owner_start_idx + 8
                 current_owner_end = data.find('</ops:',current_owner_start_idx)
                 date_start = data.find('"DATE last exchanged"',(current_owner_start_idx - 200)) + 22
                 date_end = date_start + 10
                 patent_tuple.append((data[current_owner_start:current_owner_end],"",data[date_start:date_end]))
-                
                 continue
             for k in range(len(ass_indx)):
                 owner_start = data.find('ASSIGNMENT OWNER',ass_indx[k]) + 17
