@@ -25,11 +25,6 @@ def url():
         return render_template("PATENT_FORM.html")
 
 #####################################################################################
-############# PARSING DATA FROM TEXT INPUT / CSV UPLOAD #############################
-#####################################################################################
-
-
-#####################################################################################
 ############################## SEARCH ENGINE ########################################
 @app.route('/assignor_search/<data_entry>')                                         #
 def assignor_search(data_entry):                                                    #
@@ -278,10 +273,6 @@ def assignor_search(data_entry):                                                
     data_json = json.dumps(data, cls=NpEncoder)
     return render_template("table_display.html",data=data_json,patent_tuple=patent_tuple)
 #####################################################################################
-#####################################################################################
-
-
-#####################################################################################
 ########################### CSV UPLOAD AND DOWNLOAD #################################
 app.config["CSV_UPLOADS"] = "/root/APP/client/csv"
 app.config["ALLOWED_DATA_EXTENSIONS"] = ["CSV","XLXS","TXT"]                        #
@@ -323,12 +314,6 @@ def download_csv(filename):
     downloads = app.config["CSV_UPLOADS"]
     #downloads = os.path.join(app.root_path,app.config['CSV_FOLDER'])
     return send_from_directory(directory=downloads,path=filename,as_attachment=True)
-####################### CSV UPLOAD APP ROUTES #######################################
-#####################################################################################
-
-
-
-
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
