@@ -12,7 +12,7 @@ def index():
 
 @app.route('/', methods=["POST", "GET"])
 def home():
-    return render_template("index.html")
+    return render_template("PATENT_FORM.html")
 
 
 @app.route('/PATENT_FORM/', methods=["POST", "GET"])
