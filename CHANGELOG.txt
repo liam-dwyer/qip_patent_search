@@ -1,4 +1,6 @@
 Search.py Update Changes
+
+V1.2
 	Removed case sensitivity: 
 		us######## now valid (not just US########)
 		ep######## now valid (not just EP########)
@@ -9,4 +11,9 @@ Search.py Update Changes
 	Added duplicate elimination feature
 		will check the added assignors, assignees, and dates to check and eliminate any duplicates.
 		feature added for both USPTO and EPO patents
-	
+
+V1.3
+	Removed USPTO Api for redundancy: all search functions through Espacenet EPO search engine
+	Added padding to older / different return results with different date headings / sections
+	Removed SIGNING DATE extra information on Assignor / Assignee Data. 
+	Added an "Effective Date" Heading instead of "Date" for more clear informatoin about what date engine refers to. 
