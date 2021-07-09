@@ -46,7 +46,7 @@ def assignor_search(data_entry):                                                
                 return
             yield start
             start += len(sub)  # use start += 1 to find overlapping matches
-    def url_search_eu(nums):#returns url_array and EU_nums                       #
+    def url_search(nums):#returns url_array and EU_nums                       #
         url1 = "http://ops.epo.org/3.2/rest-services/family/publication/docdb/"
         url2 = "/legal"
         url_array = []
@@ -71,17 +71,15 @@ def assignor_search(data_entry):                                                
         headers = {"Authorization": "Basic NHhFNmdCaElURFFiYVhHSGwzRlFHTDZsOGUzZVNBRTQ6elg5YkZyeW9ZallPQ2xDbg==",
                "Content-Type": "application/x-www-form-urlencoded"}
         payload = {'grant_type': 'client_credentials'}
-
         auth = requests.post(token_url, data=payload, headers=headers)
         auth = auth.text
-
         access_token = str(auth[329:357])
         bearer = "Bearer " + access_token
         headers_data = {"Authorization": bearer}
         return headers_data
                                                                                         #
     def patentAssignments(nums, headers_data): #returns patent_tuple, num, and data
-        URLS, num = url_search_eu(nums)
+        URLS, num = url_search(nums)
         #declaring the necessary arrays
         Assignor = []
         Assignee = []
@@ -130,7 +128,7 @@ def assignor_search(data_entry):                                                
                     is_letter = character.isalpha()
                     if is_letter == 1:
                         continue
-                
+               
                 Assignor.append(former_owner)
                 Assignee.append(owner)
                 Date.append(Date_formatted)
@@ -159,7 +157,6 @@ def assignor_search(data_entry):                                                
     nums = input_parser(data_entry)
     headers_data = authentification()
     patent_tuple, num, data = patentAssignments(nums, headers_data)   #
-    ################## COMBINING TUPLES AND NUMBER ARRAYS FOR CSV ###################
     ######################### CREATING PATH DIRECTORY ###############################
     dir_path = 'client/csv'                                                         #
     if not os.path.isdir(dir_path):                                                 #
@@ -174,7 +171,6 @@ def assignor_search(data_entry):                                                
             csv_file.close()
     data_json = json.dumps(data, cls=NpEncoder)
     return render_template("table_display.html",data=data_json,patent_tuple=patent_tuple)
-
 #####################################################################################
 ########################### CSV UPLOAD AND DOWNLOAD #################################
 app.config["CSV_UPLOADS"] = "/root/APP/client/csv"
@@ -184,16 +180,13 @@ def csv_upload():                                                               
     def allowed_data(filename):
         if not "." in filename:
             return False
-    
         ext = filename.rsplit(".",1)[1]
-
         if ext.upper() in app.config["ALLOWED_DATA_EXTENSIONS"]:
             return True
         else:
             return False
     if request.method =="POST":
         if request.files:
-
             csv = request.files["csv"]
             if csv.filename =="":
                 print("CSV must have a filename")
@@ -217,8 +210,6 @@ def download_csv(filename):
     downloads = app.config["CSV_UPLOADS"]
     #downloads = os.path.join(app.root_path,app.config['CSV_FOLDER'])
     return send_from_directory(directory=downloads,path=filename,as_attachment=True)
-####################### CSV UPLOAD APP ROUTES #######################################
-#####################################################################################
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
