@@ -208,7 +208,6 @@ def csv_upload():                                                               
 
 def download_csv(filename):
     downloads = app.config["CSV_UPLOADS"]
-    #downloads = os.path.join(app.root_path,app.config['CSV_FOLDER'])
     return send_from_directory(directory=downloads,path=filename,as_attachment=True)
 
 if __name__ == "__main__":
