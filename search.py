@@ -177,7 +177,7 @@ def assignor_search(data_entry):                                                
 
 #####################################################################################
 ########################### CSV UPLOAD AND DOWNLOAD #################################
-app.config["CSV_UPLOADS"] = "C:\\Users\\liamd\\OneDrive - Queen's University\\QIP\\PATENT SEARCH\\App\\client\\csv"
+app.config["CSV_UPLOADS"] = "/root/APP/client/csv"
 app.config["ALLOWED_DATA_EXTENSIONS"] = ["CSV","XLXS","TXT"]                        #
 @app.route('/csv_upload',methods=["GET","POST"])                                    #
 def csv_upload():                                                                   #
@@ -221,4 +221,4 @@ def download_csv(filename):
 #####################################################################################
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
