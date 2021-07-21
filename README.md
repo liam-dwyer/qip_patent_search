@@ -15,6 +15,8 @@ EPO database now searches with lowercase prefix and suffixes.
 USPTO database does not search with the "US" prefix and therefore code to remove the prefix before assignining it to the URL was created. The USPTO search also does not support version suffix numbers (i.e., B1, A2, etc.) and therefore have to be removed before being typed into the website. 
 #################### UPDATE ###############################
 USPTO databse now does search with version suffix numbers as well as lowercase prefix / suffix
+#################### UPDATE ###############################
+APP is now configured to run as a proxy on the qipworks.com main website, embedded into the page. The APP now runs wsgi and has its own socket.
 
 
 ####### FLASK #######
